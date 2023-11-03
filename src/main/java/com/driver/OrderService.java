@@ -38,7 +38,12 @@ public class OrderService {
     }
 
     public int orderAssigned(String partnerId){
-        return orderRepository.partnerDb.get(partnerId).getNumberOfOrders();
+        int count = 0;
+        for(String orderId : orderRepository.orderPartnerPairDb.keySet()){
+            if(orderRepository.orderPartnerPairDb.get(orderId).equals(partnerId)) count++;
+        }
+        return count;
+//        return orderRepository.partnerDb.get(partnerId).getNumberOfOrders();
     }
 
     public List<String> getListOrderToPartner(String partnerID){
