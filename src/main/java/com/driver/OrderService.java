@@ -22,6 +22,9 @@ public class OrderService {
 
     public void orderPartnerPair(String orderId,String partnerId){
         //if order is not assigned
+        if(!orderRepository.orderDb.containsKey(orderId)
+                || !orderRepository.partnerDb.containsKey(partnerId)) return;
+
         if(!orderRepository.orderPartnerPairDb.containsKey(orderId)){
             orderRepository.orderPartnerPairDb.put(orderId,partnerId);
             DeliveryPartner deliveryPartner = orderRepository.partnerDb.get(partnerId);
@@ -30,10 +33,12 @@ public class OrderService {
     }
 
     public Order getOrder(String orderID){
+        if(!orderRepository.orderDb.containsKey(orderID)) return null;
         return orderRepository.orderDb.get(orderID);
     }
 
     public DeliveryPartner getDeliverPartner(String id){
+        if(!orderRepository.partnerDb.containsKey(id)) return null;
         return orderRepository.partnerDb.get(id);
     }
 
@@ -47,6 +52,7 @@ public class OrderService {
     }
 
     public List<String> getListOrderToPartner(String partnerID){
+        if(!orderRepository.partnerDb.containsKey(partnerID)) return  new ArrayList<>();
         List<String> list = new ArrayList<>();
         for(String orderId : orderRepository.orderPartnerPairDb.keySet()){
             if(Objects.equals(orderRepository.orderPartnerPairDb.get(orderId), partnerID)){
