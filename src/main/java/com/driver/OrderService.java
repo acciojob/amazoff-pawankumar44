@@ -114,6 +114,7 @@ public class OrderService {
     }
 
     public void deleteOrderById(String orderId){
+        if(!orderRepository.orderDb.containsKey(orderId)) return;
         orderRepository.orderDb.remove(orderId);
         orderRepository.orderPartnerPairDb.remove(orderId);
         String partnerId = orderRepository.orderPartnerPairDb.get(orderId);
