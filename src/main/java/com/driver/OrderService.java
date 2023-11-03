@@ -9,8 +9,8 @@ import java.util.Objects;
 
 @Service
 public class OrderService {
-    @Autowired
-    OrderRepository orderRepository;
+//    @Autowired
+    OrderRepository orderRepository = new OrderRepository();
 
     public void addOrder(Order order){
         orderRepository.orderDb.put(order.getId(),order);
