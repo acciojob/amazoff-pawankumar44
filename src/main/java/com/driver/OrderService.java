@@ -110,13 +110,31 @@ public class OrderService {
     }
 
     public void deletePartner(String partnerId){
-        if(!orderRepository.partnerDb.containsKey(partnerId)) return;
-        for(String orderId : orderRepository.orderPartnerPairDb.keySet()){
-            if(orderRepository.orderPartnerPairDb.get(orderId).equals(partnerId)){
-                orderRepository.orderPartnerPairDb.remove(orderId);
+//        error occur while iterate with remove method
+//        if(!orderRepository.partnerDb.containsKey(partnerId)) return;
+//        for(String orderId : orderRepository.orderPartnerPairDb.keySet()){
+//            if(orderRepository.orderPartnerPairDb.get(orderId).equals(partnerId)){
+//                orderRepository.orderPartnerPairDb.remove(orderId);
+//            }
+//        }
+//        orderRepository.partnerDb.remove(partnerId);
+
+        if (!orderRepository.partnerDb.containsKey(partnerId)) return;
+
+        List<String> keysToRemove = new ArrayList<>();
+
+        for (String orderId : orderRepository.orderPartnerPairDb.keySet()) {
+            if (orderRepository.orderPartnerPairDb.get(orderId).equals(partnerId)) {
+                keysToRemove.add(orderId);
             }
         }
+
+        for (String orderId : keysToRemove) {
+            orderRepository.orderPartnerPairDb.remove(orderId);
+        }
+
         orderRepository.partnerDb.remove(partnerId);
+
     }
 
     public void deleteOrderById(String orderId){
